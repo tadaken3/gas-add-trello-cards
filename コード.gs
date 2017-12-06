@@ -2,7 +2,7 @@ var scriptProp =  PropertiesService.getScriptProperties().getProperties();
 var trelloKey　　　　　　　　 = scriptProp.TRELLO_API_KEY;
 var trelloToken 　　　　= scriptProp.TRELLO_TOKEN;
 var username 　　　　　　　　　　= scriptProp.TRELLO_USERNAME;
-var trelloBaseURL = scriptProp.TRELLO_BASE_URL;
+var trelloBaseURL = "https://trello.com/1/"
 
 function addTrelloCard(){
   var values = getSpreadsheet();
@@ -17,19 +17,23 @@ function addTrelloCard(){
    */
   
   for (var idx in values) {
+    Logger.log([idx][0])
     
     if (values[idx][0] == '') {
       continue;
     }
     
+    Logger.log(values[idx][2])
+    Logger.log(values[idx][3])
+    Logger.log(values[idx][4])
+     
     var options = {
       'method' : 'post',
       'muteHttpExceptions' : true,
       'payload' : {
-        'name'      : values[idx][1],
-        'desc'      : values[idx][2],
-        'idList'    : values[idx][4],
-        'idLabels'  : values[idx][5]
+        'name'      : values[idx][0],
+        'desc'      : values[idx][1],
+        'idList'    : values[idx][2]
       }
     }
     /** ------------------------------- */
@@ -46,8 +50,9 @@ function addTrelloCard(){
 
 function getSpreadsheet() {
   var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = spreadsheet.getSheetByName('毎週月曜日');
-  var range = sheet.getRange('B7:G24');
+  var sheet = spreadsheet.getSheetByName('everyday');
+  var range = sheet.getRange('B3:D24');
   var values = range.getValues();
+  Logger.log(values)
   return values;
 }
